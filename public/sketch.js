@@ -99,7 +99,7 @@ function newPixelDrawing(data){
 
 function newDrawing(data){
   fill(mouseX,mouseY,mouseX,1);
-ellipse(data.x, data.y, data.size, data.size);
+ellipse(data.x, data.y, data.slidersc, data.slidersc);
 }
 
 function draw() {
@@ -109,7 +109,7 @@ function draw() {
 function mouseDragged(){
   
 
-  ellipse(mouseX, mouseY,slidersc,slidersc);
+  ellipse(mouseX, mouseY,sliderScale.value(),sliderScale.value());
   fill(slider1.value(), slider2.value(),slider3.value());
 
 //enables communication between clients
