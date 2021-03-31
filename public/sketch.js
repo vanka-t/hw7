@@ -1,7 +1,7 @@
 var socket;
 var sword;
 
-var button1, button2, button3, button4, button5;
+var button1, button2, button3, button4, button5, clearButton;
 var circleSize;
 
 var slider1;
@@ -25,8 +25,8 @@ function setup() {
   background(mouseY,mouseX,255);
   colorMode(RGB, x, x, 255, 1);
   
-  socket = io.connect('https://localhost:3000');
-  // socket = io.connect('https://hw7-drawing-time.herokuapp.com/');
+  //socket = io.connect('https://localhost:3000');
+   socket = io.connect('https://hw7-drawing-time.herokuapp.com/');
 
   //broadcast handling
   socket.on('channel', newDrawing);
@@ -41,11 +41,14 @@ function setup() {
   button3 = select('#pic3');
   button4 = select('#pic4');
   button5 = select('#pic5');
+  clearButton = select('#clear');
+
 
   button1.mousePressed(changetoPic1);
   button2.mousePressed(changetoPic2);
   button3.mousePressed(changetoPic3);
   button4.mousePressed(changetoPic4);
+  clearButton.mousePressed(clearAll);
   // button5.mousePressed(changetoPic5);
 
 
@@ -69,6 +72,14 @@ function changetoPic3(){
 
 function changetoPic4(){
   circleSize = 150;
+}
+
+function clearAll() {
+    background(mouseY,mouseX,255);
+    socket.emit('clear');
+
+
+  
 }
 
 function newPixelDrawing(data){
@@ -122,14 +133,7 @@ function mouseClicked() {
     colorz3: slider3.value()
   }
 
-  socket.emit('pixel', data);
+ // socket.emit('pixel', data);
 }
 
 
-function keyPressed() {
-  if(keyCode == ENTER){
-    background(mouseY,mouseX,255);
-
-    socket.emit('clear');
-  }
-}
