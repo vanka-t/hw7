@@ -98,7 +98,7 @@ function setup() {
  fill(0);
  scaleName.addClass ( 'labelSize' );
  scaleName.position ( width+70, yy+140 );
-  sliderScale = createSlider(0,2);
+  sliderScale = createSlider(0,2.5);
   sliderScale.position(width+40, yy+150);
 
 }
