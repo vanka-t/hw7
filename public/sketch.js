@@ -15,7 +15,9 @@ function preload(){
 
 function setup() {
   createCanvas(1200, 800);
-  colorMode(RGB, 255, 255, 255, 1);
+
+  colorMode(RGB, 900, 900, 255, 1);
+  
 
   socket = io.connect('http://localhost:3000');
 
@@ -57,7 +59,9 @@ function changetoPic4(){
 }
 
 function newPixelDrawing(data){
+  fill(data.colorz, 100,100);
   if (data.img == 1){
+    
     image(sword, data.x, data.y, data.size, data.size);
   }
 }
@@ -67,13 +71,14 @@ ellipse(data.x, data.y, data.size, data.size);
 }
 
 function draw() {
-  background(100,200,255);
-  image(sword, mouseX, mouseY);
+  background(mouseY,mouseX,255);
+  image(sword, mouseX, mouseY); //make it fade away
  
   circle(width/2, height/2,20);
 }
 
 function mouseDragged(){
+  
 
   ellipse(mouseX, mouseY,circleSize,circleSize);
 
@@ -82,6 +87,7 @@ function mouseDragged(){
     x: mouseX,
     y: mouseY,
     size: circleSize
+    
   }
 
   socket.emit('channel', data);
@@ -89,12 +95,13 @@ function mouseDragged(){
 }
 
 function mouseClicked() {
-  
+  fill(slider.value(), 100,100);
 
   var data = {
     x: mouseX,
     y: mouseY,
-    img: 1
+    img: 1,
+    colorz: slider.value()
   }
 
   socket.emit('pixel', data);
