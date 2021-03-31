@@ -7,9 +7,9 @@ var express = require('express');
 // app = application
 var app = express();
 
- var server = app.listen(3000);
+//  var server = app.listen(3000);
 var port = process.env.PORT || 3000
-//var server = app.listen(port);
+var server = app.listen(port);
 
 
 app.use(express.static('public'));
@@ -27,10 +27,15 @@ function newConnection(socket){ //callback
  socket.on('channel', channelMsg);
  socket.on('pixel', pixelMsg);
  socket.on('clear', clearMsg);
+ socket.on('heartt', heartMsg);
 
  function channelMsg(data){
     //  console.log(data);
     socket.broadcast.emit('channel', data);
+    }
+
+    function heartMsg(data){
+        socket.broadcast.emit('heartt', data);
     }
 
     function pixelMsg(data){
