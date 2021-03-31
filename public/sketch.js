@@ -98,7 +98,7 @@ ellipse(data.x, data.y, data.size, data.size);
 
 function draw() {
   
-  image(sword, mouseX, mouseY); //make it fade away
+  
  
   circle(width/2, height/2,20);
 }
@@ -107,13 +107,16 @@ function mouseDragged(){
   
 
   ellipse(mouseX, mouseY,circleSize,circleSize);
+  fill(slider1.value(), slider2.value(),slider3.value());
 
 //enables communication between clients
   var data = {
     x: mouseX,
     y: mouseY,
-    size: circleSize
-    
+    size: circleSize,
+    colorz1: slider1.value(),
+    colorz2: slider2.value(),
+    colorz3: slider3.value()
   }
 
   socket.emit('channel', data);
@@ -121,19 +124,16 @@ function mouseDragged(){
 }
 
 function mouseClicked() {
-  fill(slider1.value(), slider2.value(),slider3.value());
-
+  image(sword, mouseX, mouseY); //make it fade away
 
   var data = {
     x: mouseX,
     y: mouseY,
-    img: 1,
-    colorz1: slider1.value(),
-    colorz2: slider2.value(),
-    colorz3: slider3.value()
+    img: 1
+
   }
 
- // socket.emit('pixel', data);
+  socket.emit('pixel', data);
 }
 
 
