@@ -4,7 +4,14 @@ var sword;
 var button1, button2, button3, button4, button5;
 var circleSize;
 
-var slider;
+var slider1;
+var slider2;
+var slider3;
+
+var shapes =[];
+
+var x = 900; //for color
+
 
 console.log("success");
 
@@ -15,15 +22,18 @@ function preload(){
 
 function setup() {
   createCanvas(1200, 800);
-
-  colorMode(RGB, 900, 900, 255, 1);
+  background(mouseY,mouseX,255);
+  colorMode(RGB, x, x, 255, 1);
   
-
-  socket = io.connect('http://localhost:3000');
+  socket = io.connect('https://localhost:3000');
+  // socket = io.connect('https://hw7-drawing-time.herokuapp.com/');
 
   //broadcast handling
   socket.on('channel', newDrawing);
   socket.on('pixel', newPixelDrawing);
+  socket.on('clear', function(){
+    background(mouseY,mouseX,255);
+  });
 
   circleSize = 20;
   button1 = select('#pic1');
@@ -39,7 +49,10 @@ function setup() {
   // button5.mousePressed(changetoPic5);
 
 
-  slider = createSlider(0,360,0);
+  slider1 = createSlider(0,x,x/2);
+  slider2 = createSlider(0,x,x/2);
+  slider3 = createSlider(0,x,x/2);
+
 }
 
 function changetoPic1(){
@@ -59,7 +72,8 @@ function changetoPic4(){
 }
 
 function newPixelDrawing(data){
-  fill(data.colorz, 100,100);
+  fill(data.colorz1, data.colorz2,data.colorz3);
+
   if (data.img == 1){
     
     image(sword, data.x, data.y, data.size, data.size);
@@ -67,11 +81,12 @@ function newPixelDrawing(data){
 }
 
 function newDrawing(data){
+  fill(mouseX,mouseY,mouseX,1);
 ellipse(data.x, data.y, data.size, data.size);
 }
 
 function draw() {
-  background(mouseY,mouseX,255);
+  
   image(sword, mouseX, mouseY); //make it fade away
  
   circle(width/2, height/2,20);
@@ -95,14 +110,26 @@ function mouseDragged(){
 }
 
 function mouseClicked() {
-  fill(slider.value(), 100,100);
+  fill(slider1.value(), slider2.value(),slider3.value());
+
 
   var data = {
     x: mouseX,
     y: mouseY,
     img: 1,
-    colorz: slider.value()
+    colorz1: slider1.value(),
+    colorz2: slider2.value(),
+    colorz3: slider3.value()
   }
 
   socket.emit('pixel', data);
+}
+
+
+function keyPressed() {
+  if(keyCode == ENTER){
+    background(mouseY,mouseX,255);
+
+    socket.emit('clear');
+  }
 }
