@@ -7,6 +7,7 @@ var circleSize;
 var slider1;
 var slider2;
 var slider3;
+var sliderScale;
 
 var shapes =[];
 
@@ -53,8 +54,13 @@ function setup() {
 
 
   slider1 = createSlider(0,x,x/2);
+  slider1.position(100, 10);
   slider2 = createSlider(0,x,x/2);
+  slider2.position(100, 100);
   slider3 = createSlider(0,x,x/2);
+  slider3.position(100, 190);
+  sliderScale = createSlider(0,100,50);
+  sliderScale.position(500, 10);
 
 }
 
@@ -97,16 +103,13 @@ ellipse(data.x, data.y, data.size, data.size);
 }
 
 function draw() {
-  
-  
- 
   circle(width/2, height/2,20);
 }
 
 function mouseDragged(){
   
 
-  ellipse(mouseX, mouseY,circleSize,circleSize);
+  ellipse(mouseX, mouseY,slidersc,slidersc);
   fill(slider1.value(), slider2.value(),slider3.value());
 
 //enables communication between clients
@@ -116,7 +119,8 @@ function mouseDragged(){
     size: circleSize,
     colorz1: slider1.value(),
     colorz2: slider2.value(),
-    colorz3: slider3.value()
+    colorz3: slider3.value(),
+    slidersc: sliderScale.value()
   }
 
   socket.emit('channel', data);
