@@ -24,6 +24,7 @@ function newConnection(socket){ //callback
  socket.on('channel', channelMsg);
 
  function channelMsg(data){
-     console.log(data);
+    //  console.log(data);
+    socket.broadcast.emit('channel', data);
     }
 }
