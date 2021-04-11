@@ -1,7 +1,7 @@
 var socket;
 var sword;
 
-var button1, button2, button3, button4, button5, clearButton;
+var button1, button2, button3, button4, tweetButton, clearButton, saveButton;
 var circleSize;
 
 var slider1;
@@ -14,6 +14,7 @@ var heart;
 
 var x = 900; //for color
 
+var myCanvas;
 
 console.log("success");
 
@@ -23,12 +24,12 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(1200, 800);
+  myCanvas = createCanvas(1200, 800);
   background(mouseY,mouseX,255);
   colorMode(RGB, x, x, 255, 1);
   
-  //socket = io.connect('https://localhost:3000');
-   socket = io.connect('https://hw7-drawing-time.herokuapp.com/');
+  socket = io.connect('https://localhost:3000');
+   //socket = io.connect('https://hw7-drawing-time.herokuapp.com/');
 
   //broadcast handling
   socket.on('channel', newDrawing);
@@ -51,8 +52,10 @@ function setup() {
   // button2 = select('#pic2');
   // button3 = select('#pic3');
   // button4 = select('#pic4');
-  // button5 = select('#pic5');
+  
   clearButton = select('#clear');
+  saveButton = select('#hallo');
+  tweetButton = select('#tweet');
 
 
  
@@ -61,7 +64,8 @@ function setup() {
   // button3.mousePressed(newStamp);
   // button4.mousePressed(changetoPic4);
   clearButton.mousePressed(clearAll);
-  // button5.mousePressed(changetoPic5);
+  saveButton.mousePressed(saveIt);
+  tweetButton.mousePressed(tweetIt);
 
 
   var yy =70 //posY for sliders
@@ -106,12 +110,12 @@ function setup() {
 
 
 
-function changetoPic3(){
+function tweetIt(){
   circleSize = 100;
 }
 
-function changetoPic4(){
-  circleSize = 150;
+function saveIt(){
+  saveCanvas(myCanvas, "myCanvas.png");
 }
 
 function clearAll() {
